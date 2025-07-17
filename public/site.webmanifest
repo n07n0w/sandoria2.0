@@ -1,0 +1,10 @@
+{
+  "name": "Sandoria - Профессиональная онлайн песочница",
+  "short_name": "Sandoria",
+  "description": "Онлайн-песочница, вебинары и интенсивы для психологов",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#244A65",
+  "icons": []
+} 

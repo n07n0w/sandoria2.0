@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Основные страницы
+Sitemap: https://sandoria.org/sitemap.xml
+
+# Разрешенные страницы
+Allow: /
+Allow: /webinars
+Allow: /intensive
+Allow: /about
+Allow: /sandbox
+
+# Запрещенные директории (если будут)
+# Disallow: /admin/
+# Disallow: /api/
+
+# Дополнительные настройки
+Crawl-delay: 1 

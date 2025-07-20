@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Sparkles, Users, Save, Shield, Play, BookOpen, Calendar } from 'lucide-react'
+import { Sparkles, Users, Save, Shield, Play, Book, Calendar } from 'lucide-react'
 
 const HomePage = () => {
   const advantages = [
@@ -78,7 +78,7 @@ const HomePage = () => {
                 Перейти в песочницу
               </a>
               <Link href="/webinars" className="btn-secondary text-lg px-8 py-4">
-                <BookOpen className="inline mr-2" size={20} />
+                <Book className="inline mr-2" size={20} />
                 Вебинары
               </Link>
             </motion.div>

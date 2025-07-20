@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { Calendar, Clock, Users, BookOpen, Video, Phone, ExternalLink } from 'lucide-react'
+import { Calendar, Clock, Users, Book, Video, Phone, ExternalLink } from 'lucide-react'
 
 const WebinarsPage = () => {
   const webinarProgram = [
@@ -161,7 +161,7 @@ const WebinarsPage = () => {
                     viewport={{ once: true }}
                     className="card"
                   >
-                    <BookOpen className="text-primary-dark mb-4" size={32} />
+                    <Book className="text-primary-dark mb-4" size={32} />
                     <h4 className="text-xl font-semibold text-primary-dark mb-3">
                       {item.title}
                     </h4>

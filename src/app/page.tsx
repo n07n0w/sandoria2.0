@@ -113,73 +113,73 @@ const HomePage = () => {
               </motion.p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
-              {/* Видео */}
+            {/* Описание возможностей */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="relative"
+                className="text-center"
               >
-                <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
-                  <iframe
-                    src="https://www.youtube.com/embed/BTlKJ-7JDrI?autoplay=1&mute=1&loop=1&playlist=BTlKJ-7JDrI&controls=0&showinfo=0&rel=0&modestbranding=1"
-                    title="Sandoria - Демонстрация работы онлайн песочницы"
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
+                <div className="bg-accent-sand/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">💻</span>
                 </div>
+                <h3 className="text-xl font-semibold text-primary-dark mb-3">
+                  Полноценная работа в онлайн-формате
+                </h3>
+                <p className="text-accent-black leading-relaxed">
+                  Проводите глубокие символические сеансы с клиентами удаленно. 
+                  Sandoria сохраняет всю терапевтическую мощь традиционной песочной терапии, 
+                  добавляя удобство цифрового формата.
+                </p>
               </motion.div>
 
-              {/* Описание возможностей */}
               <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="space-y-6"
+                className="text-center"
               >
-                <div>
-                  <h3 className="text-xl font-semibold text-primary-dark mb-3">
-                    Полноценная работа в онлайн-формате
-                  </h3>
-                  <p className="text-accent-black leading-relaxed">
-                    Проводите глубокие символические сеансы с клиентами удаленно. 
-                    Sandoria сохраняет всю терапевтическую мощь традиционной песочной терапии, 
-                    добавляя удобство цифрового формата.
-                  </p>
+                <div className="bg-accent-sand/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🎭</span>
                 </div>
+                <h3 className="text-xl font-semibold text-primary-dark mb-3">
+                  Обширная коллекция символов
+                </h3>
+                <p className="text-accent-black leading-relaxed">
+                  Работайте с тысячами тщательно отобранных фигурок и символов. 
+                  От архетипических образов до современных объектов — всё необходимое 
+                  для создания значимых терапевтических картин.
+                </p>
+              </motion.div>
 
-                <div>
-                  <h3 className="text-xl font-semibold text-primary-dark mb-3">
-                    Обширная коллекция символов
-                  </h3>
-                  <p className="text-accent-black leading-relaxed">
-                    Работайте с тысячами тщательно отобранных фигурок и символов. 
-                    От архетипических образов до современных объектов — всё необходимое 
-                    для создания значимых терапевтических картин.
-                  </p>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                viewport={{ once: true }}
+                className="text-center"
+              >
+                <div className="bg-accent-sand/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">📊</span>
                 </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold text-primary-dark mb-3">
-                    Сохранение и анализ прогресса
-                  </h3>
-                  <p className="text-accent-black leading-relaxed">
-                    Документируйте каждый сеанс, сохраняйте снимки песочниц, 
-                    отслеживайте динамику работы клиента. Ваша профессиональная 
-                    деятельность становится более структурированной и эффективной.
-                  </p>
-                </div>
+                <h3 className="text-xl font-semibold text-primary-dark mb-3">
+                  Сохранение и анализ прогресса
+                </h3>
+                <p className="text-accent-black leading-relaxed">
+                  Документируйте каждый сеанс, сохраняйте снимки песочниц, 
+                  отслеживайте динамику работы клиента. Ваша профессиональная 
+                  деятельность становится более структурированной и эффективной.
+                </p>
               </motion.div>
             </div>
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
               viewport={{ once: true }}
               className="bg-accent-sand/20 p-8 rounded-xl text-center"
             >

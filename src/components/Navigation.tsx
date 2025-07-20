@@ -37,9 +37,14 @@ const Navigation = () => {
                 {item.label}
               </Link>
             ))}
-            <Link href="/sandbox" className="btn-primary">
+            <a 
+              href="https://sandoria.org" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="btn-primary"
+            >
               Перейти в песочницу
-            </Link>
+            </a>
           </div>
 
           {/* Мобильное меню кнопка */}
@@ -84,9 +89,14 @@ const Navigation = () => {
                   transition={{ delay: navItems.length * 0.1 }}
                   className="px-4"
                 >
-                  <Link href="/sandbox" className="btn-primary w-full text-center block">
+                  <a 
+                    href="https://sandoria.org" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="btn-primary w-full text-center block"
+                  >
                     Перейти в песочницу
-                  </Link>
+                  </a>
                 </motion.div>
               </div>
             </motion.div>

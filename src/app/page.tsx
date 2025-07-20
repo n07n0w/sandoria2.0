@@ -68,10 +68,15 @@ const HomePage = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <Link href="/sandbox" className="btn-primary text-lg px-8 py-4">
+              <a 
+                href="https://sandoria.org" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="btn-primary text-lg px-8 py-4"
+              >
                 <Play className="inline mr-2" size={20} />
                 Перейти в песочницу
-              </Link>
+              </a>
               <Link href="/webinars" className="btn-secondary text-lg px-8 py-4">
                 <BookOpen className="inline mr-2" size={20} />
                 Вебинары
@@ -125,9 +130,14 @@ const HomePage = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               viewport={{ once: true }}
             >
-              <Link href="/sandbox" className="btn-primary text-lg px-8 py-4">
+              <a 
+                href="https://sandoria.org" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="btn-primary text-lg px-8 py-4"
+              >
                 Перейти в песочницу
-              </Link>
+              </a>
             </motion.div>
           </div>
         </div>
@@ -222,9 +232,14 @@ const HomePage = () => {
               viewport={{ once: true }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <Link href="/sandbox" className="btn-primary text-lg px-8 py-4">
+              <a 
+                href="https://sandoria.org" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="btn-primary text-lg px-8 py-4"
+              >
                 Попробовать песочницу
-              </Link>
+              </a>
               <Link href="/webinars" className="btn-secondary text-lg px-8 py-4">
                 <Calendar className="inline mr-2" size={20} />
                 Записаться на вебинар

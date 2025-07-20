@@ -89,55 +89,106 @@ const HomePage = () => {
       {/* Онлайн-песочница секция */}
       <section className="section-padding bg-white">
         <div className="container-max">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-primary-dark mb-6"
-            >
-              🧸 Sandoria — профессиональный инструмент для онлайн sandplay-терапии
-            </motion.h2>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-lg text-accent-black mb-8 leading-relaxed"
-            >
-              Создана в соответствии с основными принципами классической sandplay-терапии. 
-              Sandoria позволяет работать глубоко и символически, даже в онлайн-формате.
-            </motion.p>
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="text-3xl md:text-4xl font-bold text-primary-dark mb-6"
+              >
+                🧸 Sandoria — профессиональный инструмент для онлайн sandplay-терапии
+              </motion.h2>
+              
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="text-lg text-accent-black mb-8 leading-relaxed max-w-4xl mx-auto"
+              >
+                Sandoria — это инновационная платформа, созданная специально для психологов, которые работают в онлайн-формате. 
+                Платформа полностью соответствует принципам классической sandplay-терапии Доры Калфф, но адаптирована для цифровой среды.
+              </motion.p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-12">
+              {/* Видео */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="relative"
+              >
+                <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
+                  <iframe
+                    src="https://www.youtube.com/embed/BTlKJ-7JDrI?autoplay=1&mute=1&loop=1&playlist=BTlKJ-7JDrI&controls=0&showinfo=0&rel=0&modestbranding=1"
+                    title="Sandoria - Демонстрация работы онлайн песочницы"
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </motion.div>
+
+              {/* Описание возможностей */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="space-y-6"
+              >
+                <div>
+                  <h3 className="text-xl font-semibold text-primary-dark mb-3">
+                    Полноценная работа в онлайн-формате
+                  </h3>
+                  <p className="text-accent-black leading-relaxed">
+                    Проводите глубокие символические сеансы с клиентами удаленно. 
+                    Sandoria сохраняет всю терапевтическую мощь традиционной песочной терапии, 
+                    добавляя удобство цифрового формата.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-primary-dark mb-3">
+                    Обширная коллекция символов
+                  </h3>
+                  <p className="text-accent-black leading-relaxed">
+                    Работайте с тысячами тщательно отобранных фигурок и символов. 
+                    От архетипических образов до современных объектов — всё необходимое 
+                    для создания значимых терапевтических картин.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-primary-dark mb-3">
+                    Сохранение и анализ прогресса
+                  </h3>
+                  <p className="text-accent-black leading-relaxed">
+                    Документируйте каждый сеанс, сохраняйте снимки песочниц, 
+                    отслеживайте динамику работы клиента. Ваша профессиональная 
+                    деятельность становится более структурированной и эффективной.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
-              className="bg-accent-sand/20 p-6 rounded-xl mb-8"
+              className="bg-accent-sand/20 p-8 rounded-xl text-center"
             >
-              <p className="text-primary-dark italic">
+              <p className="text-primary-dark italic text-lg leading-relaxed">
                 <strong>Историческая справка:</strong> Название Sandoria — символическое, 
-                связанное с именем Доры Калфф, которая разработала метод песочной терапии.
+                связанное с именем Доры Калфф, которая разработала метод песочной терапии. 
+                Мы с глубоким уважением относимся к наследию юнгианской традиции и стремимся 
+                сохранить её суть в цифровую эпоху.
               </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <a 
-                href="https://sandoria.org" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="btn-primary text-lg px-8 py-4"
-              >
-                Перейти в песочницу
-              </a>
             </motion.div>
           </div>
         </div>

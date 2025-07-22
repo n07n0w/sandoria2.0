@@ -3,8 +3,15 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Sparkles, Users, Save, Shield, Play, Book, Calendar } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 const HomePage = () => {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   const advantages = [
     {
       icon: Users,
@@ -28,31 +35,41 @@ const HomePage = () => {
     }
   ]
 
+  // Fallback component for server-side rendering
+  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+    if (!isClient) {
+      // For SSR, render with visible styles but preserve className
+      const { className, ...restProps } = props
+      return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
+    }
+    return <motion.div {...props}>{children}</motion.div>
+  }
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-accent-sand via-white to-primary-light/10 section-padding">
         <div className="container-max">
           <div className="text-center max-w-4xl mx-auto">
-            <motion.h1 
+            <AnimatedComponent 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-4xl md:text-6xl font-bold text-primary-dark mb-6"
             >
               Sandoria
-            </motion.h1>
+            </AnimatedComponent>
             
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-xl md:text-2xl text-primary-light mb-8"
             >
               пространство для психологов, работающих в онлайн-формате
-            </motion.h2>
+            </AnimatedComponent>
             
-            <motion.p
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -60,9 +77,9 @@ const HomePage = () => {
             >
               Онлайн-песочница, обучающие вебинары и очные интенсивы — всё, что нужно 
               для глубокой, символической и профессиональной работы с клиентами на расстоянии.
-            </motion.p>
+            </AnimatedComponent>
             
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -81,7 +98,7 @@ const HomePage = () => {
                 <Book className="inline mr-2" size={20} />
                 Вебинары
               </Link>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -91,7 +108,7 @@ const HomePage = () => {
         <div className="container-max">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <motion.h2
+              <AnimatedComponent
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
@@ -99,9 +116,9 @@ const HomePage = () => {
                 className="text-3xl md:text-4xl font-bold text-primary-dark mb-6"
               >
                 🧸 Sandoria — профессиональный инструмент для онлайн sandplay-терапии
-              </motion.h2>
+              </AnimatedComponent>
               
-              <motion.p
+              <AnimatedComponent
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -110,12 +127,12 @@ const HomePage = () => {
               >
                 Sandoria — это инновационная платформа, созданная специально для психологов, которые работают в онлайн-формате. 
                 Платформа полностью соответствует принципам классической sandplay-терапии Доры Калфф, но адаптирована для цифровой среды.
-              </motion.p>
+              </AnimatedComponent>
             </div>
 
             {/* Описание возможностей */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              <motion.div
+              <AnimatedComponent
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
@@ -133,9 +150,9 @@ const HomePage = () => {
                   Sandoria сохраняет всю терапевтическую мощь традиционной песочной терапии, 
                   добавляя удобство цифрового формата.
                 </p>
-              </motion.div>
+              </AnimatedComponent>
 
-              <motion.div
+              <AnimatedComponent
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -153,9 +170,9 @@ const HomePage = () => {
                   От архетипических образов до современных объектов — всё необходимое 
                   для создания значимых терапевтических картин.
                 </p>
-              </motion.div>
+              </AnimatedComponent>
 
-              <motion.div
+              <AnimatedComponent
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
@@ -173,10 +190,10 @@ const HomePage = () => {
                   отслеживайте динамику работы клиента. Ваша профессиональная 
                   деятельность становится более структурированной и эффективной.
                 </p>
-              </motion.div>
+              </AnimatedComponent>
             </div>
 
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -189,7 +206,7 @@ const HomePage = () => {
                 Мы с глубоким уважением относимся к наследию юнгианской традиции и стремимся 
                 сохранить её суть в цифровую эпоху.
               </p>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -198,7 +215,7 @@ const HomePage = () => {
       <section className="section-padding bg-gradient-to-br from-primary-dark to-primary-light">
         <div className="container-max">
           <div className="text-center mb-16">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -206,8 +223,8 @@ const HomePage = () => {
               className="text-3xl md:text-4xl font-bold text-white mb-6"
             >
               Удобный и интуитивно понятный инструмент
-            </motion.h2>
-            <motion.p
+            </AnimatedComponent>
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -216,14 +233,14 @@ const HomePage = () => {
             >
               Разработан специально для специалистов, работающих с метафорами, 
               символами и глубинным бессознательным.
-            </motion.p>
+            </AnimatedComponent>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {advantages.map((advantage, index) => {
               const IconComponent = advantage.icon
               return (
-                <motion.div
+                <AnimatedComponent
                   key={advantage.title}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -244,7 +261,7 @@ const HomePage = () => {
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </AnimatedComponent>
               )
             })}
           </div>
@@ -255,7 +272,7 @@ const HomePage = () => {
       <section className="section-padding bg-accent-sand">
         <div className="container-max">
           <div className="text-center max-w-3xl mx-auto">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -263,9 +280,9 @@ const HomePage = () => {
               className="text-3xl md:text-4xl font-bold text-primary-dark mb-6"
             >
               Готовы начать работу?
-            </motion.h2>
+            </AnimatedComponent>
             
-            <motion.p
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -274,9 +291,9 @@ const HomePage = () => {
             >
               Присоединяйтесь к профессиональному сообществу психологов, 
               которые используют современные технологии для глубокой терапевтической работы.
-            </motion.p>
+            </AnimatedComponent>
             
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -295,7 +312,7 @@ const HomePage = () => {
                 <Calendar className="inline mr-2" size={20} />
                 Записаться на вебинар
               </Link>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>

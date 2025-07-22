@@ -2,8 +2,25 @@
 
 import { motion } from 'framer-motion'
 import { Heart, Lightbulb, Users, Mail } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 const AboutPage = () => {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Fallback component for server-side rendering
+  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+    if (!isClient) {
+      // For SSR, render with visible styles but preserve className
+      const { className, ...restProps } = props
+      return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
+    }
+    return <motion.div {...props}>{children}</motion.div>
+  }
+
   const values = [
     {
       icon: Heart,
@@ -28,16 +45,16 @@ const AboutPage = () => {
       <section className="bg-gradient-to-br from-primary-dark to-primary-light section-padding text-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h1
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-4xl md:text-5xl font-bold mb-6"
             >
               Как родилась Sandoria
-            </motion.h1>
+            </AnimatedComponent>
             
-            <motion.p
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -45,7 +62,7 @@ const AboutPage = () => {
             >
               История создания платформы, которая объединяет технологии, 
               терапию и профессиональный подход
-            </motion.p>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -54,7 +71,7 @@ const AboutPage = () => {
       <section className="section-padding bg-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -79,7 +96,7 @@ const AboutPage = () => {
                   работы с бессознательным на расстоянии.
                 </p>
               </div>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -88,7 +105,7 @@ const AboutPage = () => {
       <section className="section-padding bg-accent-sand">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -96,10 +113,10 @@ const AboutPage = () => {
               className="text-3xl md:text-4xl font-bold text-primary-dark mb-12 text-center"
             >
               Авторы проекта
-            </motion.h2>
+            </AnimatedComponent>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-              <motion.div
+              <AnimatedComponent
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
@@ -116,9 +133,9 @@ const AboutPage = () => {
                   Практикующий психолог, аналитический психотерапевт. 
                   Специалист по работе с детьми и подростками в онлайн-формате.
                 </p>
-              </motion.div>
+              </AnimatedComponent>
 
-              <motion.div
+              <AnimatedComponent
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -135,10 +152,10 @@ const AboutPage = () => {
                   Практикующий психолог, аналитический психотерапевт. 
                   Эксперт в области символической работы и sandplay-терапии.
                 </p>
-              </motion.div>
+              </AnimatedComponent>
             </div>
 
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -150,7 +167,7 @@ const AboutPage = () => {
                 позволили создать инструмент, который действительно помогает 
                 психологам в их профессиональной деятельности.
               </p>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -159,7 +176,7 @@ const AboutPage = () => {
       <section className="section-padding bg-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -167,9 +184,9 @@ const AboutPage = () => {
               className="text-3xl md:text-4xl font-bold text-primary-dark mb-12 text-center"
             >
               Наша философия
-            </motion.h2>
+            </AnimatedComponent>
 
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -181,13 +198,13 @@ const AboutPage = () => {
                 где соединяются технологии, терапия и профессиональный подход. 
                 Место, где можно быть рядом даже на расстоянии.»
               </blockquote>
-            </motion.div>
+            </AnimatedComponent>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {values.map((value, index) => {
                 const IconComponent = value.icon
                 return (
-                  <motion.div
+                  <AnimatedComponent
                     key={value.title}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -204,7 +221,7 @@ const AboutPage = () => {
                     <p className="text-accent-black leading-relaxed">
                       {value.description}
                     </p>
-                  </motion.div>
+                  </AnimatedComponent>
                 )
               })}
             </div>
@@ -216,7 +233,7 @@ const AboutPage = () => {
       <section className="section-padding bg-primary-dark text-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -224,9 +241,9 @@ const AboutPage = () => {
               className="text-3xl md:text-4xl font-bold mb-8"
             >
               Свяжитесь с нами
-            </motion.h2>
+            </AnimatedComponent>
             
-            <motion.p
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -234,9 +251,9 @@ const AboutPage = () => {
               className="text-xl text-accent-sand mb-8"
             >
               Мы всегда открыты для диалога с коллегами и готовы ответить на ваши вопросы
-            </motion.p>
+            </AnimatedComponent>
             
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -259,7 +276,7 @@ const AboutPage = () => {
               <p className="text-primary-light">
                 Напишите нам о ваших потребностях, вопросах или предложениях по сотрудничеству
               </p>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>

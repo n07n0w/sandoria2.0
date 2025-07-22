@@ -2,8 +2,25 @@
 
 import { motion } from 'framer-motion'
 import { MapPin, Calendar, Users, Heart, Camera, MessageCircle } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 const IntensivePage = () => {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Fallback component for server-side rendering
+  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+    if (!isClient) {
+      // For SSR, render with visible styles but preserve className
+      const { className, ...restProps } = props
+      return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
+    }
+    return <motion.div {...props}>{children}</motion.div>
+  }
+
   const features = [
     {
       icon: Users,
@@ -43,25 +60,25 @@ const IntensivePage = () => {
       <section className="bg-gradient-to-br from-accent-sand via-white to-primary-light/10 section-padding">
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h1
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-4xl md:text-5xl font-bold text-primary-dark mb-6"
             >
               🌿 Очные летние интенсивы
-            </motion.h1>
+            </AnimatedComponent>
             
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-2xl text-primary-light mb-8"
             >
               для детских психологов
-            </motion.h2>
+            </AnimatedComponent>
             
-            <motion.p
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -69,7 +86,7 @@ const IntensivePage = () => {
             >
               Пространство для живого контакта, совместного развития, работы с образами, 
               телом и символами. Мы собираемся вместе на несколько дней летом в Подмосковье.
-            </motion.p>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -78,7 +95,7 @@ const IntensivePage = () => {
       <section className="section-padding bg-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -86,13 +103,13 @@ const IntensivePage = () => {
               className="text-3xl md:text-4xl font-bold text-primary-dark mb-12 text-center"
             >
               Что делает наш интенсив особенным
-            </motion.h2>
+            </AnimatedComponent>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
               {features.map((feature, index) => {
                 const IconComponent = feature.icon
                 return (
-                  <motion.div
+                  <AnimatedComponent
                     key={feature.title}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -109,12 +126,12 @@ const IntensivePage = () => {
                     <p className="text-accent-black leading-relaxed">
                       {feature.description}
                     </p>
-                  </motion.div>
+                  </AnimatedComponent>
                 )
               })}
             </div>
 
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -128,7 +145,7 @@ const IntensivePage = () => {
                 Уважаемые коллеги поделятся своим опытом и знаниями 
                 в области детской психотерапии и работы с символами
               </p>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -137,7 +154,7 @@ const IntensivePage = () => {
       <section className="section-padding bg-primary-dark text-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -168,9 +185,9 @@ const IntensivePage = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </AnimatedComponent>
 
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -186,7 +203,7 @@ const IntensivePage = () => {
               >
                 Узнать подробности
               </a>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -195,7 +212,7 @@ const IntensivePage = () => {
       <section className="section-padding bg-accent-sand">
         <div className="container-max">
           <div className="max-w-6xl mx-auto">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -203,10 +220,10 @@ const IntensivePage = () => {
               className="text-3xl md:text-4xl font-bold text-primary-dark mb-12 text-center"
             >
               Впечатления участников
-            </motion.h2>
+            </AnimatedComponent>
 
             {/* Плейсхолдер для фото */}
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -221,10 +238,10 @@ const IntensivePage = () => {
                 Здесь будут размещены фотографии с предыдущих интенсивов, 
                 показывающие атмосферу и рабочий процесс
               </p>
-            </motion.div>
+            </AnimatedComponent>
 
             {/* Отзывы */}
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -236,7 +253,7 @@ const IntensivePage = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {testimonials.map((testimonial, index) => (
-                  <motion.div
+                  <AnimatedComponent
                     key={index}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -246,15 +263,15 @@ const IntensivePage = () => {
                   >
                     <MessageCircle className="text-primary-dark mb-4" size={24} />
                     <p className="text-accent-black mb-4 italic leading-relaxed">
-                      "{testimonial.text}"
+                      &ldquo;{testimonial.text}&rdquo;
                     </p>
                     <p className="text-primary-dark font-semibold">
                       — {testimonial.author}
                     </p>
-                  </motion.div>
+                  </AnimatedComponent>
                 ))}
               </div>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -263,7 +280,7 @@ const IntensivePage = () => {
       <section className="section-padding bg-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -271,9 +288,9 @@ const IntensivePage = () => {
               className="text-3xl md:text-4xl font-bold text-primary-dark mb-6"
             >
               Присоединяйтесь к нашему сообществу
-            </motion.h2>
+            </AnimatedComponent>
             
-            <motion.p
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -282,9 +299,9 @@ const IntensivePage = () => {
             >
               Станьте частью профессионального сообщества детских психологов, 
               стремящихся к развитию и обмену опытом
-            </motion.p>
+            </AnimatedComponent>
             
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -303,7 +320,7 @@ const IntensivePage = () => {
               >
                 Посмотреть вебинары
               </a>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>

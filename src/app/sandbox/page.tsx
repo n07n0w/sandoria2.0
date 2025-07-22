@@ -3,13 +3,30 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Construction, ArrowLeft, Mail } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 const SandboxPage = () => {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Fallback component for server-side rendering
+  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+    if (!isClient) {
+      // For SSR, render with visible styles but preserve className
+      const { className, ...restProps } = props
+      return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
+    }
+    return <motion.div {...props}>{children}</motion.div>
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-accent-sand via-white to-primary-light/10">
       <div className="container-max section-padding">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.div
+          <AnimatedComponent
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -22,9 +39,9 @@ const SandboxPage = () => {
             <h2 className="text-2xl text-primary-light mb-8">
               В разработке
             </h2>
-          </motion.div>
+          </AnimatedComponent>
 
-          <motion.div
+          <AnimatedComponent
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -65,9 +82,9 @@ const SandboxPage = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </AnimatedComponent>
 
-          <motion.div
+          <AnimatedComponent
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -90,9 +107,9 @@ const SandboxPage = () => {
                 sandoria.org@gmail.com
               </a>
             </div>
-          </motion.div>
+          </AnimatedComponent>
 
-          <motion.div
+          <AnimatedComponent
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -105,7 +122,7 @@ const SandboxPage = () => {
             <Link href="/webinars" className="btn-secondary text-lg px-8 py-4">
               Посмотреть вебинары
             </Link>
-          </motion.div>
+          </AnimatedComponent>
         </div>
       </div>
     </div>

@@ -3,8 +3,25 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Shield, Lock, Eye, FileText } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 const PrivacyPage = () => {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Fallback component for server-side rendering
+  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+    if (!isClient) {
+      // For SSR, render with visible styles but preserve className
+      const { className, ...restProps } = props
+      return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
+    }
+    return <motion.div {...props}>{children}</motion.div>
+  }
+
   const sections = [
     {
       icon: Shield,
@@ -29,7 +46,7 @@ const PrivacyPage = () => {
       <section className="bg-gradient-to-br from-primary-dark to-primary-light section-padding text-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -47,7 +64,7 @@ const PrivacyPage = () => {
               <p className="text-xl text-accent-sand">
                 Конфиденциальность и безопасность — наши приоритеты
               </p>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -56,7 +73,7 @@ const PrivacyPage = () => {
       <section className="section-padding bg-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -64,13 +81,13 @@ const PrivacyPage = () => {
               className="text-3xl font-bold text-primary-dark mb-12 text-center"
             >
               Наши принципы
-            </motion.h2>
+            </AnimatedComponent>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
               {sections.map((section, index) => {
                 const IconComponent = section.icon
                 return (
-                  <motion.div
+                  <AnimatedComponent
                     key={section.title}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -87,7 +104,7 @@ const PrivacyPage = () => {
                     <p className="text-accent-black leading-relaxed">
                       {section.content}
                     </p>
-                  </motion.div>
+                  </AnimatedComponent>
                 )
               })}
             </div>
@@ -99,7 +116,7 @@ const PrivacyPage = () => {
       <section className="section-padding bg-accent-sand">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -157,7 +174,7 @@ const PrivacyPage = () => {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -166,7 +183,7 @@ const PrivacyPage = () => {
       <section className="section-padding bg-primary-dark text-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -174,7 +191,7 @@ const PrivacyPage = () => {
               className="text-3xl font-bold mb-6"
             >
               Вопросы о конфиденциальности?
-            </motion.h2>
+            </AnimatedComponent>
             
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -186,7 +203,7 @@ const PrivacyPage = () => {
               Свяжитесь с нами, если у вас есть вопросы о защите данных или использовании платформы
             </motion.p>
             
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -198,7 +215,7 @@ const PrivacyPage = () => {
               >
                 Написать нам
               </a>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>

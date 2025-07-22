@@ -12,10 +12,12 @@ Sandoria — это современная веб-платформа, созда
 
 ## Технический стек
 
-- **Frontend**: Next.js 14+ с TypeScript
-- **Styling**: Tailwind CSS + Framer Motion
-- **Деплой**: Docker контейнер
-- **Иконки**: Lucide React
+- **Frontend**: Next.js 15.4.2 с TypeScript 5.7.2
+- **React**: 18.3.1 (стабильная версия)
+- **Styling**: Tailwind CSS 3.4.17 + Framer Motion 12.23.6
+- **Деплой**: Docker контейнер с Node.js 20
+- **Иконки**: Lucide React 0.525.0
+- **Node.js**: 20.20.0+ (LTS)
 
 ## Установка и запуск
 
@@ -49,8 +51,40 @@ npm start
 ### Docker
 
 ```bash
+# Сборка образа
 docker build -t sandoria .
+
+# Запуск контейнера
 docker run -p 3000:3000 sandoria
+
+# Для production с переменными окружения
+docker run -p 3000:3000 -e NODE_ENV=production sandoria
+```
+
+### Production Deployment
+
+Для production деплоя убедитесь, что:
+
+1. **Node.js версия**: 20.20.0 или выше
+2. **Переменные окружения**: `NODE_ENV=production`
+3. **Порт**: 3000 (по умолчанию)
+4. **Memory**: Минимум 512MB RAM
+5. **Storage**: Минимум 1GB свободного места
+
+#### Проверка совместимости
+
+```bash
+# Проверка версии Node.js
+node --version
+
+# Проверка сборки
+npm run build
+
+# Проверка типов
+npm run type-check
+
+# Проверка линтера
+npm run lint
 ```
 
 ## Структура проекта

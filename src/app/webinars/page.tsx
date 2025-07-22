@@ -1,10 +1,26 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { Calendar, Clock, Users, Book, Video, Phone, ExternalLink } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 const WebinarsPage = () => {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Fallback component for server-side rendering
+  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+    if (!isClient) {
+      // For SSR, render with visible styles but preserve className
+      const { className, ...restProps } = props
+      return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
+    }
+    return <motion.div {...props}>{children}</motion.div>
+  }
+
   const webinarProgram = [
     {
       title: 'Теория',
@@ -45,16 +61,16 @@ const WebinarsPage = () => {
       <section className="bg-gradient-to-br from-primary-dark to-primary-light section-padding text-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h1
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-4xl md:text-5xl font-bold mb-6"
             >
               Как работать онлайн — глубоко, надёжно и живо
-            </motion.h1>
+            </AnimatedComponent>
             
-            <motion.p
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -62,9 +78,9 @@ const WebinarsPage = () => {
             >
               Мы делимся тем, как адаптировать психоаналитический подход к онлайн-формату: 
               что происходит с переносом, как работает экран и как выстраивается поле.
-            </motion.p>
+            </AnimatedComponent>
 
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -83,7 +99,7 @@ const WebinarsPage = () => {
                 <Phone className="inline mr-2" size={20} />
                 Связаться: 8 968 749 99 87
               </a>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -92,7 +108,7 @@ const WebinarsPage = () => {
       <section className="section-padding bg-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -138,10 +154,10 @@ const WebinarsPage = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </AnimatedComponent>
 
             {/* Программа */}
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -153,7 +169,7 @@ const WebinarsPage = () => {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {webinarProgram.map((item, index) => (
-                  <motion.div
+                  <AnimatedComponent
                     key={item.title}
                     initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -168,10 +184,10 @@ const WebinarsPage = () => {
                     <p className="text-accent-black leading-relaxed">
                       {item.description}
                     </p>
-                  </motion.div>
+                  </AnimatedComponent>
                 ))}
               </div>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -180,7 +196,7 @@ const WebinarsPage = () => {
       <section className="section-padding bg-accent-sand">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.h3
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -188,11 +204,11 @@ const WebinarsPage = () => {
               className="text-3xl font-bold text-primary-dark mb-12 text-center"
             >
               Стоимость участия
-            </motion.h3>
+            </AnimatedComponent>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
               {pricing.map((plan, index) => (
-                <motion.div
+                <AnimatedComponent
                   key={plan.title}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -226,11 +242,11 @@ const WebinarsPage = () => {
                       {plan.description}
                     </p>
                   </div>
-                </motion.div>
+                </AnimatedComponent>
               ))}
             </div>
 
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -243,7 +259,7 @@ const WebinarsPage = () => {
               <p className="text-accent-black">
                 Доступ к записям теоретических блоков
               </p>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -252,7 +268,7 @@ const WebinarsPage = () => {
       <section className="section-padding bg-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.h3
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -260,10 +276,10 @@ const WebinarsPage = () => {
               className="text-3xl font-bold text-primary-dark mb-8 text-center"
             >
               Доступные форматы
-            </motion.h3>
+            </AnimatedComponent>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <motion.div
+              <AnimatedComponent
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
@@ -280,9 +296,9 @@ const WebinarsPage = () => {
                 <a href="tel:+79687499987" className="btn-primary">
                   Связаться: 8 968 749 99 87
                 </a>
-              </motion.div>
+              </AnimatedComponent>
 
-              <motion.div
+              <AnimatedComponent
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -304,7 +320,7 @@ const WebinarsPage = () => {
                 >
                   Зарегистрироваться
                 </a>
-              </motion.div>
+              </AnimatedComponent>
             </div>
           </div>
         </div>

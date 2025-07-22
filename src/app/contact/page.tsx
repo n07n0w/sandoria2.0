@@ -3,8 +3,25 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Mail, Phone, MessageCircle, Clock, MapPin, Send } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 const ContactPage = () => {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Fallback component for server-side rendering
+  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+    if (!isClient) {
+      // For SSR, render with visible styles but preserve className
+      const { className, ...restProps } = props
+      return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
+    }
+    return <motion.div {...props}>{children}</motion.div>
+  }
+
   const contactMethods = [
     {
       icon: Mail,
@@ -41,7 +58,7 @@ const ContactPage = () => {
       <section className="bg-gradient-to-br from-primary-dark to-primary-light section-padding text-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -59,7 +76,7 @@ const ContactPage = () => {
               <p className="text-xl text-accent-sand">
                 Мы всегда рады ответить на ваши вопросы и обсудить сотрудничество
               </p>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>
@@ -68,7 +85,7 @@ const ContactPage = () => {
       <section className="section-padding bg-white">
         <div className="container-max">
           <div className="max-w-6xl mx-auto">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -76,13 +93,13 @@ const ContactPage = () => {
               className="text-3xl font-bold text-primary-dark mb-12 text-center"
             >
               Способы связи
-            </motion.h2>
+            </AnimatedComponent>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
               {contactMethods.map((method, index) => {
                 const IconComponent = method.icon
                 return (
-                  <motion.div
+                  <AnimatedComponent
                     key={method.title}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -105,7 +122,7 @@ const ContactPage = () => {
                     <p className="text-accent-black text-sm">
                       {method.description}
                     </p>
-                  </motion.div>
+                  </AnimatedComponent>
                 )
               })}
             </div>
@@ -119,7 +136,7 @@ const ContactPage = () => {
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Рабочее время */}
-              <motion.div
+              <AnimatedComponent
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
@@ -151,10 +168,10 @@ const ContactPage = () => {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </AnimatedComponent>
 
               {/* Форма обратной связи */}
-              <motion.div
+              <AnimatedComponent
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -229,7 +246,7 @@ const ContactPage = () => {
                 <p className="text-sm text-primary-light mt-4 text-center">
                   Мы ответим в течение 24 часов в рабочие дни
                 </p>
-              </motion.div>
+              </AnimatedComponent>
             </div>
           </div>
         </div>
@@ -239,7 +256,7 @@ const ContactPage = () => {
       <section className="section-padding bg-primary-dark text-white">
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h2
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -247,7 +264,7 @@ const ContactPage = () => {
               className="text-3xl font-bold mb-8"
             >
               Присоединяйтесь к профессиональному сообществу
-            </motion.h2>
+            </AnimatedComponent>
             
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -260,7 +277,7 @@ const ContactPage = () => {
               и внедрению современных технологий в терапевтическую практику
             </motion.p>
             
-            <motion.div
+            <AnimatedComponent
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -273,7 +290,7 @@ const ContactPage = () => {
               <Link href="/intensive" className="btn-primary text-lg px-8 py-4">
                 Узнать об интенсивах
               </Link>
-            </motion.div>
+            </AnimatedComponent>
           </div>
         </div>
       </section>

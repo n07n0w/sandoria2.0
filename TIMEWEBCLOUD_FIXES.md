@@ -37,22 +37,30 @@ const [isMounted, setIsMounted] = useState(false)
 
 **До**:
 ```dockerfile
-RUN npm ci  # Устанавливал dev зависимости
+RUN npm ci --only=production  # Не хватало dev зависимостей для сборки
+COPY . .                      # Копировал всё, включая ненужное
 ```
 
 **После**:
 ```dockerfile
-RUN npm ci --only=production --ignore-scripts  # Только production
-RUN apk add --no-cache libc6-compat git        # Совместимость
+RUN npm ci                    # Все зависимости для сборки
+COPY src ./src               # Только нужные файлы
+COPY tsconfig.json ./        # TypeScript конфигурация
 ```
 
 ### 4. ❌ **Package.json недочеты**
 
 **Добавлено**:
-- `start:prod` script для production тестирования
+- `start:standalone` для запуска standalone версии
+- `start:prod` исправлен для корректного standalone запуска
 - `cross-env` для переменных окружения
 - `browserslist` для оптимизации
 - Строгие требования к versions
+
+### 5. 🆕 **TypeScript пути в Docker**
+
+**Проблема**: `@/` пути не разрешались в Docker контейнере
+**Решение**: Копирование `tsconfig.json` и правильная структура файлов
 
 ## 🔧 Применененные исправления
 
@@ -104,14 +112,23 @@ const nextConfig = {
 }
 ```
 
-### 3. **Производственный Dockerfile**
+### 3. **Исправленный Dockerfile**
 
 ```dockerfile
 FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat git
-RUN npm ci --only=production --ignore-scripts
+RUN npm ci  # Все зависимости включая dev для сборки
 
 FROM node:20-alpine AS builder
+# Копируем конфигурационные файлы
+COPY tsconfig.json ./
+COPY next.config.js ./
+COPY tailwind.config.js ./
+COPY postcss.config.js ./
+# Копируем исходный код
+COPY src ./src
+COPY public ./public
+
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 CI=true
 RUN npm run build
 
@@ -119,6 +136,17 @@ FROM node:20-alpine AS runner
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0
 HEALTHCHECK --interval=30s --timeout=3s CMD node --version || exit 1
 CMD ["node", "server.js"]
+```
+
+### 4. **Исправленный package.json**
+
+```json
+{
+  "scripts": {
+    "start:prod": "NODE_ENV=production node .next/standalone/server.js",
+    "start:standalone": "node .next/standalone/server.js"
+  }
+}
 ```
 
 ## 🚀 Инструкции для TimeWebCloud
@@ -133,7 +161,7 @@ cd sandoria2.0
 ### Шаг 2: Установка зависимостей
 
 ```bash
-npm ci --only=production
+npm ci
 ```
 
 ### Шаг 3: Сборка
@@ -142,10 +170,18 @@ npm ci --only=production
 NODE_ENV=production npm run build
 ```
 
-### Шаг 4: Запуск
+### Шаг 4: Запуск (ВАЖНО!)
+
+**Для standalone конфигурации используйте:**
 
 ```bash
-NODE_ENV=production PORT=3000 npm run start:prod
+NODE_ENV=production node .next/standalone/server.js
+```
+
+**ИЛИ через npm скрипт:**
+
+```bash
+npm run start:standalone
 ```
 
 ### Переменные окружения для TimeWebCloud:
@@ -162,7 +198,8 @@ HOSTNAME=0.0.0.0
 ### Локальное тестирование:
 
 ```bash
-npm run build && npm run start:prod
+npm run build
+npm run start:standalone
 curl -I http://localhost:3000
 # Должен возвращать HTTP/1.1 200 OK
 ```
@@ -193,6 +230,20 @@ curl -I http://localhost:3000
 2. **Memory limit**: Рекомендуется минимум 512MB RAM
 3. **Timeout**: Установите таймаут запуска не менее 60 секунд
 4. **Static files**: Убедитесь, что `/public` и `/.next/static` доступны
+5. **⚠️ КРИТИЧНО**: Используйте `node .next/standalone/server.js` а НЕ `next start`
+
+### Если ошибка "Module not found":
+
+1. Проверьте, что все файлы скопированы:
+   ```bash
+   ls -la src/
+   ls -la src/components/
+   ls -la src/styles/
+   ```
+
+2. Проверьте `tsconfig.json` - он должен присутствовать
+
+3. Убедитесь, что dev зависимости установлены для сборки
 
 ### Альтернативные варианты:
 
@@ -207,12 +258,12 @@ curl -I http://localhost:3000
 
 - [x] ✅ Сборка проходит без ошибок
 - [x] ✅ Линтинг исправлен 
-- [x] ✅ Production тест локально успешен
+- [x] ✅ Standalone тест локально успешен
 - [x] ✅ Все страницы видны сразу
 - [x] ✅ Анимации работают корректно
-- [x] ✅ Безопасность настроена
-- [x] ✅ Оптимизация включена
-- [x] ✅ Docker образ готов
+- [x] ✅ TypeScript пути работают в Docker
+- [x] ✅ Security headers настроены
+- [x] ✅ Dockerfile оптимизирован
 
 ## 🎯 Результат
 
@@ -221,11 +272,13 @@ curl -I http://localhost:3000
 - ✅ **100% видимость контента** на всех страницах
 - ✅ **Быстрый старт** на production
 - ✅ **Стабильная работа** SSR/CSR
-- ✅ **Оптимизированная производительность**
+- ✅ **Исправлены Docker пути** TypeScript
+- ✅ **Корректный standalone запуск**
 - ✅ **Совместимость** с hosting провайдерами
 - ✅ **Безопасность** production ready
 
 ---
 
 **Дата**: Январь 2025  
-**Версии**: Next.js 15.4.2, Node.js 20.x, React 18.3.1 
+**Версии**: Next.js 15.4.2, Node.js 20.x, React 18.3.1  
+**Статус**: Готов к развертыванию 

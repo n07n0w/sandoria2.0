@@ -7,23 +7,34 @@ WORKDIR /app
 # Копируем package.json и lock-файл
 COPY package.json package-lock.json* ./
 
-# Устанавливаем зависимости с оптимизацией для production
-RUN npm ci --only=production --ignore-scripts
+# Устанавливаем все зависимости (включая dev для сборки)
+RUN npm ci
 
 # Этап 2: Сборка приложения
 FROM node:20-alpine AS builder
 RUN apk add --no-cache libc6-compat git
 WORKDIR /app
 
+# Копируем зависимости
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+
+# Копируем конфигурационные файлы
+COPY package.json ./
+COPY tsconfig.json ./
+COPY next.config.js ./
+COPY tailwind.config.js ./
+COPY postcss.config.js ./
+
+# Копируем исходный код
+COPY src ./src
+COPY public ./public
 
 # Устанавливаем переменные окружения для production
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV CI=true
 
-# Отключаем telemetry и запускаем сборку
+# Запускаем сборку
 RUN npm run build
 
 # Этап 3: Production runtime

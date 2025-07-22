@@ -124,7 +124,7 @@ const HomePage = () => {
               <AnimatedComponent
                 className="text-3xl md:text-4xl font-bold text-primary-dark mb-6"
               >
-                🧸 Sandoria — профессиональный инструмент для онлайн sandplay-терапии
+                Sandoria — профессиональный инструмент для онлайн sandplay-терапии
               </AnimatedComponent>
               
               <AnimatedComponent

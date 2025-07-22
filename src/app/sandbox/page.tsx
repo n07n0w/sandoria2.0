@@ -34,7 +34,7 @@ const SandboxPage = () => {
           >
             <Construction size={80} className="text-primary-dark mx-auto mb-6" />
             <h1 className="text-4xl md:text-5xl font-bold text-primary-dark mb-6">
-              🧸 Онлайн-песочница
+              Онлайн-песочница
             </h1>
             <h2 className="text-2xl text-primary-light mb-8">
               В разработке

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import '@/styles/globals.css'
-import Navigation from '@/components/Navigation'
-import Footer from '@/components/Footer'
+import '../styles/globals.css'
+import Navigation from '../components/Navigation'
+import Footer from '../components/Footer'
 
 export const metadata: Metadata = {
   title: 'Sandoria - Профессиональная онлайн песочница для психологов',

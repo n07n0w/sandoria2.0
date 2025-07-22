@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 # Устанавливаем все зависимости (включая dev для сборки)
-RUN npm ci
+RUN npm ci --include=dev
 
 # Этап 2: Сборка приложения
 FROM node:20-alpine AS builder

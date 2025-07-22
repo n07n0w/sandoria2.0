@@ -13,13 +13,31 @@ const ContactPage = () => {
   }, [])
 
   // Fallback component for server-side rendering
-  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+  const AnimatedComponent = ({ children, isHero = false, ...props }: { children: React.ReactNode; isHero?: boolean; [key: string]: unknown }) => {
     if (!isClient) {
       // For SSR, render with visible styles but preserve className
-      const { className, ...restProps } = props
+      const { className } = props
       return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
     }
-    return <motion.div {...props}>{children}</motion.div>
+
+    // For hero sections, animate immediately. For scroll sections, use whileInView
+    if (isHero) {
+      return <motion.div {...props}>{children}</motion.div>
+    } else {
+      // For scroll animations, ensure they start visible and add subtle animation
+      const { ...restProps } = props // Removed initial, whileInView from here
+      return (
+        <motion.div
+          initial={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          viewport={{ once: true }}
+          {...restProps}
+        >
+          {children}
+        </motion.div>
+      )
+    }
   }
 
   const contactMethods = [
@@ -59,6 +77,7 @@ const ContactPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <AnimatedComponent
+              isHero={true}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -86,25 +105,17 @@ const ContactPage = () => {
         <div className="container-max">
           <div className="max-w-6xl mx-auto">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-3xl font-bold text-primary-dark mb-12 text-center"
             >
               Способы связи
             </AnimatedComponent>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-              {contactMethods.map((method, index) => {
+              {contactMethods.map((method) => {
                 const IconComponent = method.icon
                 return (
                   <AnimatedComponent
                     key={method.title}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: index * 0.2 }}
-                    viewport={{ once: true }}
                     className="card text-center group hover:shadow-xl transition-all duration-300"
                   >
                     <div className="bg-accent-sand p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center group-hover:bg-primary-dark transition-colors duration-300">
@@ -137,10 +148,6 @@ const ContactPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Рабочее время */}
               <AnimatedComponent
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
                 className="card"
               >
                 <div className="flex items-center mb-6">
@@ -151,8 +158,8 @@ const ContactPage = () => {
                 </div>
                 
                 <div className="space-y-4">
-                  {workingHours.map((schedule, index) => (
-                    <div key={index} className="flex justify-between items-center py-2 border-b border-accent-sand/50">
+                  {workingHours.map((schedule) => (
+                    <div key={schedule.day} className="flex justify-between items-center py-2 border-b border-accent-sand/50">
                       <span className="text-accent-black font-medium">{schedule.day}</span>
                       <span className="text-primary-dark font-semibold">{schedule.time}</span>
                     </div>
@@ -172,10 +179,6 @@ const ContactPage = () => {
 
               {/* Форма обратной связи */}
               <AnimatedComponent
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
                 className="card"
                 id="contact-form"
               >
@@ -257,31 +260,19 @@ const ContactPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-3xl font-bold mb-8"
             >
               Присоединяйтесь к профессиональному сообществу
             </AnimatedComponent>
             
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
+            <AnimatedComponent
               className="text-xl text-accent-sand mb-8"
             >
               Станьте частью сообщества психологов, которые стремятся к развитию 
               и внедрению современных технологий в терапевтическую практику
-            </motion.p>
+            </AnimatedComponent>
             
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Link href="/webinars" className="btn-secondary text-lg px-8 py-4">

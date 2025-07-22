@@ -12,13 +12,30 @@ const AboutPage = () => {
   }, [])
 
   // Fallback component for server-side rendering
-  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+  const AnimatedComponent = ({ children, isHero = false, ...props }: { children: React.ReactNode; isHero?: boolean; [key: string]: unknown }) => {
     if (!isClient) {
       // For SSR, render with visible styles but preserve className
-      const { className, ...restProps } = props
+      const { className } = props
       return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
     }
-    return <motion.div {...props}>{children}</motion.div>
+    
+    // For hero sections, animate immediately. For scroll sections, use whileInView
+    if (isHero) {
+      return <motion.div {...props}>{children}</motion.div>
+    } else {
+      // For scroll animations, ensure they start visible and add subtle animation
+      const { ...restProps } = props
+      return (
+        <motion.div 
+          initial={{ opacity: 1, y: 0 }} 
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          {...restProps}
+        >
+          {children}
+        </motion.div>
+      )
+    }
   }
 
   const values = [
@@ -46,18 +63,14 @@ const AboutPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
               className="text-4xl md:text-5xl font-bold mb-6"
             >
               Как родилась Sandoria
             </AnimatedComponent>
             
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
               className="text-xl text-accent-sand leading-relaxed"
             >
               История создания платформы, которая объединяет технологии, 
@@ -72,10 +85,6 @@ const AboutPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-center mb-16"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-primary-dark mb-8">
@@ -106,10 +115,6 @@ const AboutPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-3xl md:text-4xl font-bold text-primary-dark mb-12 text-center"
             >
               Авторы проекта
@@ -119,8 +124,6 @@ const AboutPage = () => {
               <AnimatedComponent
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
                 className="card text-center"
               >
                 <div className="bg-primary-dark p-6 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center">
@@ -138,8 +141,6 @@ const AboutPage = () => {
               <AnimatedComponent
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
                 className="card text-center"
               >
                 <div className="bg-primary-dark p-6 rounded-full w-24 h-24 mx-auto mb-6 flex items-center justify-center">
@@ -156,10 +157,6 @@ const AboutPage = () => {
             </div>
 
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
               className="text-center"
             >
               <p className="text-lg text-primary-dark font-semibold">
@@ -177,20 +174,12 @@ const AboutPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-3xl md:text-4xl font-bold text-primary-dark mb-12 text-center"
             >
               Наша философия
             </AnimatedComponent>
 
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
               className="bg-primary-dark/5 rounded-xl p-8 mb-12 text-center"
             >
               <blockquote className="text-2xl text-primary-dark font-medium italic mb-6">
@@ -206,10 +195,6 @@ const AboutPage = () => {
                 return (
                   <AnimatedComponent
                     key={value.title}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: index * 0.2 }}
-                    viewport={{ once: true }}
                     className="text-center"
                   >
                     <div className="bg-accent-sand p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
@@ -234,30 +219,18 @@ const AboutPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-3xl md:text-4xl font-bold mb-8"
             >
               Свяжитесь с нами
             </AnimatedComponent>
             
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
               className="text-xl text-accent-sand mb-8"
             >
               Мы всегда открыты для диалога с коллегами и готовы ответить на ваши вопросы
             </AnimatedComponent>
             
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
               className="bg-white/10 backdrop-blur-sm rounded-xl p-8"
             >
               <div className="flex items-center justify-center space-x-4 mb-6">

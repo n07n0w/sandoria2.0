@@ -12,13 +12,31 @@ const WebinarsPage = () => {
   }, [])
 
   // Fallback component for server-side rendering
-  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+  const AnimatedComponent = ({ children, isHero = false, ...props }: { children: React.ReactNode; isHero?: boolean; [key: string]: unknown }) => {
     if (!isClient) {
       // For SSR, render with visible styles but preserve className
-      const { className, ...restProps } = props
+      const { className } = props
       return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
     }
-    return <motion.div {...props}>{children}</motion.div>
+
+    // For hero sections, animate immediately. For scroll sections, use whileInView
+    if (isHero) {
+      return <motion.div {...props}>{children}</motion.div>
+    } else {
+      // For scroll animations, ensure they start visible and add subtle animation
+      const { ...restProps } = props // Removed initial, whileInView from here
+      return (
+        <motion.div
+          initial={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          viewport={{ once: true }}
+          {...restProps}
+        >
+          {children}
+        </motion.div>
+      )
+    }
   }
 
   const webinarProgram = [
@@ -62,6 +80,7 @@ const WebinarsPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto text-center">
             <AnimatedComponent
+              isHero={true}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -71,6 +90,7 @@ const WebinarsPage = () => {
             </AnimatedComponent>
             
             <AnimatedComponent
+              isHero={true}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -81,6 +101,7 @@ const WebinarsPage = () => {
             </AnimatedComponent>
 
             <AnimatedComponent
+              isHero={true}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -109,10 +130,6 @@ const WebinarsPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-center mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-primary-dark mb-6">
@@ -158,23 +175,15 @@ const WebinarsPage = () => {
 
             {/* Программа */}
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
               className="mb-12"
             >
               <h3 className="text-2xl font-bold text-primary-dark mb-8 text-center">
                 Программа включает:
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {webinarProgram.map((item, index) => (
+                {webinarProgram.map((item) => (
                   <AnimatedComponent
                     key={item.title}
-                    initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: index * 0.1 }}
-                    viewport={{ once: true }}
                     className="card"
                   >
                     <Book className="text-primary-dark mb-4" size={32} />
@@ -197,23 +206,15 @@ const WebinarsPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-3xl font-bold text-primary-dark mb-12 text-center"
             >
               Стоимость участия
             </AnimatedComponent>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              {pricing.map((plan, index) => (
+              {pricing.map((plan) => (
                 <AnimatedComponent
                   key={plan.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.2 }}
-                  viewport={{ once: true }}
                   className={`card relative ${plan.popular ? 'ring-2 ring-primary-dark' : ''}`}
                 >
                   {plan.popular && (
@@ -247,10 +248,6 @@ const WebinarsPage = () => {
             </div>
 
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
               className="bg-primary-dark/10 rounded-xl p-6 text-center"
             >
               <h4 className="text-xl font-semibold text-primary-dark mb-3">
@@ -269,10 +266,6 @@ const WebinarsPage = () => {
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-3xl font-bold text-primary-dark mb-8 text-center"
             >
               Доступные форматы
@@ -280,10 +273,6 @@ const WebinarsPage = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <AnimatedComponent
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
                 className="card text-center"
               >
                 <Video className="text-primary-dark mb-4 mx-auto" size={48} />
@@ -299,10 +288,6 @@ const WebinarsPage = () => {
               </AnimatedComponent>
 
               <AnimatedComponent
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
                 className="card text-center"
               >
                 <Calendar className="text-primary-dark mb-4 mx-auto" size={48} />

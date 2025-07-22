@@ -74,12 +74,18 @@ const Footer = () => {
             © {currentYear} Sandoria. Все права защищены.
           </div>
           
-          <div className="flex space-x-6 text-sm">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm justify-center md:justify-end">
+            <Link 
+              href="/legal" 
+              className="text-primary-light hover:text-accent-sand transition-colors duration-300"
+            >
+              Правовая информация
+            </Link>
             <Link 
               href="/privacy" 
               className="text-primary-light hover:text-accent-sand transition-colors duration-300"
             >
-              Соглашение об использовании
+              Конфиденциальность
             </Link>
             <Link 
               href="/contact" 

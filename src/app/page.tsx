@@ -36,13 +36,30 @@ const HomePage = () => {
   ]
 
   // Fallback component for server-side rendering
-  const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
+  const AnimatedComponent = ({ children, isHero = false, ...props }: { children: React.ReactNode; isHero?: boolean; [key: string]: unknown }) => {
     if (!isClient) {
       // For SSR, render with visible styles but preserve className
-      const { className, ...restProps } = props
+      const { className } = props
       return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
     }
-    return <motion.div {...props}>{children}</motion.div>
+    
+    // For hero sections, animate immediately. For scroll sections, use whileInView
+    if (isHero) {
+      return <motion.div {...props}>{children}</motion.div>
+    } else {
+      // For scroll animations, ensure they start visible and add subtle animation
+      const { ...restProps } = props
+      return (
+        <motion.div 
+          initial={{ opacity: 1, y: 0 }} 
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          {...restProps}
+        >
+          {children}
+        </motion.div>
+      )
+    }
   }
 
   return (
@@ -52,27 +69,24 @@ const HomePage = () => {
         <div className="container-max">
           <div className="text-center max-w-4xl mx-auto">
             <AnimatedComponent 
-              initial={{ opacity: 0, y: 30 }}
+              isHero={true}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
               className="text-4xl md:text-6xl font-bold text-primary-dark mb-6"
             >
               Sandoria
             </AnimatedComponent>
             
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
+              isHero={true}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
               className="text-xl md:text-2xl text-primary-light mb-8"
             >
               пространство для психологов, работающих в онлайн-формате
             </AnimatedComponent>
             
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
+              isHero={true}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
               className="text-lg text-accent-black mb-12 leading-relaxed"
             >
               Онлайн-песочница, обучающие вебинары и очные интенсивы — всё, что нужно 
@@ -80,9 +94,8 @@ const HomePage = () => {
             </AnimatedComponent>
             
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
+              isHero={true}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <a 
@@ -109,20 +122,12 @@ const HomePage = () => {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <AnimatedComponent
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
                 className="text-3xl md:text-4xl font-bold text-primary-dark mb-6"
               >
                 🧸 Sandoria — профессиональный инструмент для онлайн sandplay-терапии
               </AnimatedComponent>
               
               <AnimatedComponent
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
                 className="text-lg text-accent-black mb-8 leading-relaxed max-w-4xl mx-auto"
               >
                 Sandoria — это инновационная платформа, созданная специально для психологов, которые работают в онлайн-формате. 
@@ -133,10 +138,6 @@ const HomePage = () => {
             {/* Описание возможностей */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               <AnimatedComponent
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
                 className="text-center"
               >
                 <div className="bg-accent-sand/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -153,10 +154,6 @@ const HomePage = () => {
               </AnimatedComponent>
 
               <AnimatedComponent
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
                 className="text-center"
               >
                 <div className="bg-accent-sand/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -173,10 +170,6 @@ const HomePage = () => {
               </AnimatedComponent>
 
               <AnimatedComponent
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                viewport={{ once: true }}
                 className="text-center"
               >
                 <div className="bg-accent-sand/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -194,10 +187,6 @@ const HomePage = () => {
             </div>
 
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              viewport={{ once: true }}
               className="bg-accent-sand/20 p-8 rounded-xl text-center"
             >
               <p className="text-primary-dark italic text-lg leading-relaxed">
@@ -216,19 +205,11 @@ const HomePage = () => {
         <div className="container-max">
           <div className="text-center mb-16">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-3xl md:text-4xl font-bold text-white mb-6"
             >
               Удобный и интуитивно понятный инструмент
             </AnimatedComponent>
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
               className="text-xl text-accent-sand max-w-3xl mx-auto"
             >
               Разработан специально для специалистов, работающих с метафорами, 
@@ -237,15 +218,11 @@ const HomePage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {advantages.map((advantage, index) => {
+                          {advantages.map((advantage) => {
               const IconComponent = advantage.icon
               return (
                 <AnimatedComponent
                   key={advantage.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.2 }}
-                  viewport={{ once: true }}
                   className="bg-white/10 backdrop-blur-sm rounded-xl p-8 hover:bg-white/20 transition-all duration-300"
                 >
                   <div className="flex items-start space-x-4">
@@ -273,20 +250,12 @@ const HomePage = () => {
         <div className="container-max">
           <div className="text-center max-w-3xl mx-auto">
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
               className="text-3xl md:text-4xl font-bold text-primary-dark mb-6"
             >
               Готовы начать работу?
             </AnimatedComponent>
             
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
               className="text-lg text-accent-black mb-8"
             >
               Присоединяйтесь к профессиональному сообществу психологов, 
@@ -294,10 +263,6 @@ const HomePage = () => {
             </AnimatedComponent>
             
             <AnimatedComponent
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <a 

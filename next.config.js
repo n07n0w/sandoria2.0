@@ -1,57 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: 'export',
+  trailingSlash: true,
   images: {
-    formats: ['image/webp', 'image/avif'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    unoptimized: false,
+    unoptimized: true,
   },
-  compress: true,
-  poweredByHeader: false,
-  reactStrictMode: true,
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
   
-  // Важные настройки для production
-  trailingSlash: false,
-  generateEtags: true,
-  
-  // Настройки для лучшей совместимости с hosting провайдерами
-  env: {
-    NEXT_TELEMETRY_DISABLED: '1',
-  },
-  
-  // Оптимизация сборки
-  typescript: {
-    ignoreBuildErrors: false,
-  },
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
+  // Настройки для статического экспорта
+  distDir: 'out',
   
   // Настройки безопасности
-  headers: async () => {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-        ],
-      },
-    ]
+  poweredByHeader: false,
+  reactStrictMode: true,
+  
+  // Переменные окружения
+  env: {
+    NEXT_TELEMETRY_DISABLED: '1',
   },
 }
 

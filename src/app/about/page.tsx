@@ -190,9 +190,9 @@ const AboutPage = () => {
             </AnimatedComponent>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {values.map((value, index) => {
-                const IconComponent = value.icon
-                return (
+                          {values.map((value) => {
+              const IconComponent = value.icon
+              return (
                   <AnimatedComponent
                     key={value.title}
                     className="text-center"

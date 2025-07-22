@@ -16,7 +16,7 @@ const SandboxPage = () => {
   const AnimatedComponent = ({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) => {
     if (!isClient) {
       // For SSR, render with visible styles but preserve className
-      const { className, ...restProps } = props
+      const { className } = props
       return <div className={className as string} style={{ opacity: 1, transform: 'translateY(0)' }}>{children}</div>
     }
     return <motion.div {...props}>{children}</motion.div>

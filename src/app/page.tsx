@@ -81,7 +81,7 @@ const HomePage = () => {
               animate={{ opacity: 1, y: 0 }}
               className="text-xl md:text-2xl text-primary-light mb-8"
             >
-              Платформа для психологов, работающих в онлайн-формате
+              Платформа для работы психологов в онлайн-формате
             </AnimatedComponent>
             
             <AnimatedComponent

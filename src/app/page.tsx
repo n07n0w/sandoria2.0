@@ -186,16 +186,7 @@ const HomePage = () => {
               </AnimatedComponent>
             </div>
 
-            <AnimatedComponent
-              className="bg-accent-sand/20 p-8 rounded-xl text-center"
-            >
-              <p className="text-primary-dark italic text-lg leading-relaxed">
-                <strong>Историческая справка:</strong> Название Sandoria — символическое, 
-                связанное с именем Доры Калфф, которая разработала метод песочной терапии. 
-                Мы с глубоким уважением относимся к наследию юнгианской традиции и стремимся 
-                сохранить её суть в цифровую эпоху.
-              </p>
-            </AnimatedComponent>
+
           </div>
         </div>
       </section>
